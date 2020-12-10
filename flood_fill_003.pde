@@ -3,6 +3,9 @@
 // From https://forum.processing.org/one/topic/fill-tool-and-spray-tool-in-a-drawing-program.html
 // Have fun.  
 
+int saveCounter = 0;
+boolean mouseReleased = false;
+
 FloodFill1 myFloodFill ;
 //
 void setup() {
@@ -13,48 +16,45 @@ void setup() {
   rect (390, 390, 90, 90);
   int scale = 80;
 
+
   strokeWeight(2);
   beginShape();
-  vertex(random(50) + scale * 1, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 3);
-  vertex(random(50) + scale * 1, random(50) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 3);
   endShape(CLOSE);
 
 
   scale = 100;
   strokeWeight(2);
   beginShape();
-  vertex(random(50) + scale * 1, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 3);
-  vertex(random(50) + scale * 1, random(50) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 3);
   endShape(CLOSE);
 
 
   scale = 200;
   strokeWeight(2);
   beginShape();
-  vertex(random(50) + scale * 1, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 1);
-  vertex(random(50) + scale * 2, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 2);
-  vertex(random(50) + scale * 3, random(50) + scale * 3);
-  vertex(random(50) + scale * 1, random(50) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 1);
+  vertex(random(250) + scale * 2, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 2);
+  vertex(random(250) + scale * 3, random(250) + scale * 3);
+  vertex(random(250) + scale * 1, random(250) + scale * 3);
   endShape(CLOSE);
 }
 
 
 //
 void draw () {
-  //
-  // background (117);
-  //
-
 
   strokeWeight(2);
   beginShape();
@@ -69,9 +69,11 @@ void draw () {
 
 
 
+
   loadPixels();
   myFloodFill = new FloodFill1();
-  if (mousePressed) {
+  if (mouseReleased) {  
+    mouseReleased = false; // used to prevent flashing colours from causing Photosensitive epilepsy 
     myFloodFill.DoFill(mouseX, mouseY, color(random(255), random(255), random(255)));
     updatePixels();
   }
@@ -171,3 +173,15 @@ public class FloodFill1
   } // func
 } // class
 // ----------------------------------------------------------
+
+
+void keyReleased() {
+  save("flood_fill_" + saveCounter + ".png");
+  saveCounter ++;
+  setup();
+}
+
+void mouseReleased() {
+  // used to help prevent flashing colours from causing Photosensitive epilepsy 
+  mouseReleased = true;
+}
